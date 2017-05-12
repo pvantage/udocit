@@ -107,7 +107,7 @@ function site_footer()
 						if(data['msgs'])
 						{
 							var html='<div class="chatwindow" id="chatwindow_123">';
-							html+='<div class="chatupper"><div class="chatusers">Patient\'\s Online</div><div class="chatclose"><a href="javascript:;" class="minmaxchat" data-act="minimise" coords="123"><i class="fa fa-minus" aria-hidden="true"></i></a></div><div class="clear"></div></div><div id="contentscroll">';
+							html+='<div class="chatupper"><div class="chatusers">Patients Online</div><div class="chatclose"><a href="javascript:;" class="minmaxchat" data-act="minimise" coords="123"><i class="fa fa-minus" aria-hidden="true"></i></a></div><div class="clear"></div></div><div id="contentscroll">';
 							jQuery(data['msgs']).each(function(i){
 								html+='<div class="chatcontent" id="chatcontent_'+data['msgs'][i]['group_id']+'"><a href="'+realsiteurl+'/appdocchat?gid='+data['msgs'][i]['grp']+'&did='+doc_uid+'">'+data['msgs'][i]['patient']+'</a></div> <div class="clear"></div>';
 								if(groupids==''){
