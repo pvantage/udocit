@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<meta name="description" content="" />
+
+<meta name="author" content="" />
+
+<!--[if IE]>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <![endif]-->
+
+<title>Call</title>
+
+<!-- BOOTSTRAP CORE STYLE  -->
+
+<link href="assets/css/bootstrap.css" rel="stylesheet" />
+
+<!-- FONT AWESOME ICONS  -->
+
+<link href="assets/css/font-awesome.css" rel="stylesheet" />
+
+<!-- CUSTOM STYLE  -->
+
+<link href="assets/css/style.css" rel="stylesheet" />
+
+<script src="assets/js/jquery-1.10.2.js"></script>
+<!-- BOOTSTRAP SCRIPTS -->
+<script src="assets/js/bootstrap.js"></script>
+<!-- CUSTOM SCRIPTS -->
+<script type="text/javascript" src="assets/js/config.js"></script>
+</head>
+
+<body>
+<div class="navbar navbar-inverse set-radius-zero">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand logo" href="index.html"> <img src="assets/img/logo.png" /> </a> </div>
+	  <div class="navbar-collapse collapse ">
+        <script type="text/javascript">document.write(site_menus());</script> 
+    </div>
+</div>
+
+<!-- /. NAV SIDE  -->
+
+<div class="content-wrapper">
+
+<div class="container">
+
+  <!-- /. ROW  -->
+	<h4 class="page-head-line">Add Feedback <a href="patient-udoc-calls.html" class="backtosite"><img src="assets/img/arrow-prev.png" alt=""></a></h4>
+  <div class="row pad-top">
+		<form name="udocit" id="udocit" action="" method="post">
+			<div class="showloginmsg btn-success"></div>
+			<input type="hidden" name="patient_id" id="Patient_id" value="0" />
+			<input type="hidden" name="chatid" id="chatid" value="0" />
+			<input type="hidden" name="savefeedback" value="1" />
+			<div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback"> 
+				Feedback <textarea name="feedback" class="form-control required" rows="5" cols="100"></textarea>
+			</div>
+			<div class="clear"></div>
+			<div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback"> 
+				Rating <select name="ratting" class="form-control required">
+							<option value="5">5</option>
+							<option value="4">4</option>
+							<option value="3">3</option>
+							<option value="2">2</option>
+							<option value="1">1</option>
+						</select>
+			</div>
+			<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+				<button class="btn btn-success" name="update" type="submit">Save</button>
+			</div>
+		</form>
+		<div class="clear"></div>
+</div>
+
+</div>
+</div>
+
+<script type="text/javascript" src="assets/js/validate.js"></script>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+
+	jQuery('#menu-top .chatting').addClass('menu-top-active');
+
+});
+
+</script>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	jQuery( document ).on( "mobileinit", function() {
+		jQuery.mobile.allowCrossDomainPages = true;
+	});
+	var contentType ="application/x-www-form-urlencoded; charset=utf-8";
+    if(window.XDomainRequest){contentType = "text/plain";}
+	jQuery.support.cors = true;
+	jQuery('#udocit').validate({
+			  rules: {
+				consult_reason: {
+				  required: true
+				}
+				
+			}, 
+			  messages: {
+					consult_reason: {
+						required: "Please enter the reason for consult before starting the call."
+					}
+				}
+			});
+	var pat_uid=localStorage.getItem('pat_uid');
+	var ID=gup('ID')
+	jQuery('#chatid').val(ID);
+	jQuery('#Patient_id').val(pat_uid);
+	jQuery('#udocit').submit(function(){
+		
+		var error=false;
+		jQuery('#udocit input, #udocit textarea, #udocit select').each(function(){
+			if(jQuery(this).hasClass('error'))
+			{
+				error=true;
+			}
+		});
+		if(!error)
+		{
+			var url=realsiteurl+'/api/patient-udoc-calls';
+			jQuery.ajax({  
+			 type: 'POST',  
+			 url: url,  
+			 //contentType: contentType,  
+			 dataType: 'json',  
+			 data: jQuery('#udocit').serialize(),  
+			 crossDomain: true,  
+			 beforeSend: function() {
+								
+			 },		
+			 complete: function() {
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .preloader').remove();					
+			 },
+			 success: function(res) {  
+			   if(res['success'])
+			   {
+					var showerrors=res['success']['msg'];
+					jQuery('.showloginmsg').html(showerrors);
+			   }
+			   if(res['error'])
+			   {
+					var showerrors=res['error']['msg'];
+					jQuery('.showloginmsg').html(showerrors);
+			   }
+			   
+				return false;
+			 },  
+			 error: function(response, d, a){
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .popupbox').remove();
+				var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+				jQuery('body').append(html);
+				
+				jQuery('.okbox').click(function(){
+					jQuery('body .bodyoverlay').remove();
+					jQuery('body .popupbox').remove();
+				}); 
+				return false;
+			 } 
+		   });
+		   return false;
+		}
+		return false;
+	});
+});
+</script>
+<script type="text/javascript">document.write(site_footer());</script>
+</body>
+</html>

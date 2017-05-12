@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<meta name="description" content="" />
+
+<meta name="author" content="" />
+
+<!--[if IE]>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <![endif]-->
+
+<title>My Account</title>
+
+<!-- BOOTSTRAP CORE STYLE  -->
+
+<link href="assets/css/bootstrap.css" rel="stylesheet" />
+
+<!-- FONT AWESOME ICONS  -->
+
+<link href="assets/css/font-awesome.css" rel="stylesheet" />
+
+<!-- CUSTOM STYLE  -->
+
+<link href="assets/css/style.css" rel="stylesheet" />
+
+<link href="assets/css/custom.css" rel="stylesheet" />
+<link href="assets/css/signature-pad.css" rel="stylesheet" />
+<script src="assets/js/jquery-1.10.2.js"></script>
+<!-- BOOTSTRAP SCRIPTS -->
+<script src="assets/js/bootstrap.js"></script>
+<!-- CUSTOM SCRIPTS -->
+<script type="text/javascript" src="assets/js/config.js"></script>
+</head>
+
+<body>
+<div class="navbar navbar-inverse set-radius-zero">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand logo" href="index.html"> <img src="assets/img/logo.png" /> </a> </div>
+	  <div class="navbar-collapse collapse ">
+        <script type="text/javascript">document.write(site_menus());</script> 
+    </div>
+</div>
+<div class="content-wrapper">
+<div class="container">
+
+  
+
+      <h4 class="page-head-line">My Account</h4>
+
+    
+
+  <!-- /. ROW  -->
+
+  <div class="row">
+
+    <div class="col-lg-12 col-md-12">
+
+       <div class="showloginmsg"></div>
+
+
+      <form name="edituser" id="edituser" action="" enctype="multipart/form-data" method="post">
+		<input type="hidden" name="Doctor_id" id="Doctor_id" value="" />
+		<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">First Name
+
+          <input type="text" id="fname" value="" class="form-control required onlytext" placeholder="" name="fname">
+
+        </div>
+
+		<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">Last Name
+
+          <input type="text" id="lname" value="" class="form-control required onlytext" placeholder="" name="lname">
+
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Email
+
+          <input type="text" id="email" value="" class="form-control required email" placeholder="" name="email">
+
+        </div>
+
+		<div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback"> Password
+
+          <input type="text" class="form-control" id="pwd" placeholder="" name="pwd">
+
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback"> Username
+
+          <input type="text" class="form-control required" value="" disabled="disabled">
+
+        </div>
+		
+		<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Prescriber number
+		  <input type="text" class="form-control required" id="prescriber_number" name="prescriber_number" value="" />
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Provider number
+		  <input type="text" class="form-control required" id="provider_number" name="provider_number" value="" />
+		</div>
+        
+		<div class="col-md-12 col-sm-12 col-xs-12">
+		<label for="signature">Signature</label>
+		<div>
+		<div class="canvas_container">
+		  <div id="signature-pad" class="m-signature-pad">
+			<div class="m-signature-pad--body">
+			  <canvas id="canvas" width="300" height="40"></canvas>
+			</div>
+		  </div>
+		</div>
+		<div class="patent_submit nextbox">
+		  <button type="button" class="btn btn-default clearsignature" data-action="clear">Clear Signature</button>
+		</div>
+		<input type="hidden" name="signaturefile" id="signaturefile" class="required" value="" />
+	  </div>
+	  </div>
+		<div class="clear"></div>
+
+		<div class="col-md-6 col-sm-6 col-xs-6"></div>
+
+        <div class="col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+
+          <button class="btn btn-success" name="update" type="submit" id="submitform">Update</button>
+
+        </div>
+
+      </form>
+
+      
+
+    </div>
+
+  </div>
+
+  <!-- /. ROW  -->
+
+</div>
+</div>
+<!-- /. PAGE WRAPPER  -->
+
+<script type="text/javascript" src="assets/js/validate.js"></script>
+<script type="text/javascript" src="assets/js/signature_pad.js"></script>
+
+<script type="text/javascript">
+var wrapper = document.getElementById("signature-pad"),
+    canvas = wrapper.querySelector("canvas"),
+    signaturePad;
+
+// Adjust canvas coordinate space taking into account pixel ratio,
+// to make it look crisp on mobile devices.
+// This also causes canvas to be cleared.
+function resizeCanvas() {
+    // When zoomed out to less than 100%, for some very strange reason,
+    // some browsers report devicePixelRatio as less than 1
+    // and only part of the canvas is cleared then.
+    var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext("2d").scale(ratio, ratio);
+}
+
+window.onresize = resizeCanvas;
+resizeCanvas();
+
+signaturePad = new SignaturePad(canvas);
+function updateaccount(){
+	
+	var error=false;
+	jQuery('#edituser input').each(function(){
+		if(jQuery(this).hasClass('error'))
+		{
+			error=true;
+		}
+	});
+	if(!error)
+	{
+		var doc_uid=localStorage.getItem('doc_uid');
+		var url=realsiteurl+'/api/doctor-account';
+		jQuery.ajax({  
+		 type: 'POST',  
+		 url: url,  
+		 //contentType: contentType,  
+		 dataType: 'json',  
+		 data: jQuery('#edituser').serialize(),  
+		 crossDomain: true,  
+		 beforeSend: function() {
+			/*jQuery('body .bodyoverlay').remove();
+			jQuery('body .preloader').remove();
+			var html='<div class="bodyoverlay"></div><div class="preloader"></div>';
+			jQuery('body').append(html);*/					
+		 },		
+		 complete: function() {
+			jQuery('body .bodyoverlay').remove();
+			jQuery('body .preloader').remove();					
+		 },
+		 success: function(res) {  
+		   if(res['success'])
+		   {
+				localStorage.setItem('doc_fname', res['success']['fname']);
+				localStorage.setItem('doc_lname', res['success']['lname']);
+				//window.location='patient-dashboard.html';   
+				var showerrors='<span class="col-lg-12 col-md-12 btn-success" style="margin:5px auto;">'+res['success']['msg']+'</span><br />';
+				jQuery('.showloginmsg').html(showerrors);
+		   }
+		   if(res['errors'])
+		   {
+				var showerrors='';
+				jQuery(res['errors']).each(function(i){
+					showerrors+='<span class="col-lg-12 col-md-12 btn-danger" style="margin:5px auto;">'+res['errors'][i]+'</span><br />';
+				});
+				jQuery('.showloginmsg').html(showerrors);
+				jQuery("html, body").animate({ scrollTop: 0 }, "slow");
+		   }
+			return false;
+		 },  
+		 error: function(response, d, a){
+			jQuery('body .bodyoverlay').remove();
+			jQuery('body .popupbox').remove();
+			var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+			jQuery('body').append(html);
+			
+			jQuery('.okbox').click(function(){
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .popupbox').remove();
+			}); 
+			return false;
+		 } 
+	   });
+	}
+	return false;
+	
+}
+jQuery(document).ready(function(){
+	var doc_uid=localStorage.getItem('doc_uid');
+	jQuery('#Doctor_id').val(doc_uid);
+	var url=realsiteurl+'/api/doctor-account';
+	jQuery.ajax({  
+	 type: 'POST',  
+	 url: url,  
+	 //contentType: contentType,  
+	 dataType: 'json',  
+	 data: {showaccount:1,Doctor_id:doc_uid},  
+	 crossDomain: true,  
+	 beforeSend: function() {
+						
+	 },		
+	 complete: function() {
+		jQuery('body .bodyoverlay').remove();
+		jQuery('body .preloader').remove();					
+	 },
+	 success: function(res) {  
+	   jQuery('#fname').val(res['user']['fname']);
+		jQuery('#lname').val(res['user']['lname']);
+		jQuery('#email').val(res['user']['email']);
+		jQuery('#username').val(res['user']['username']);
+		jQuery('#prescriber_number').val(res['user']['prescriber_number']);
+		jQuery('#provider_number').val(res['user']['provider_number']);
+		if(jQuery.trim(res['user']['signature'])!=''){
+			jQuery('.m-signature-pad--body').prepend('<img src="'+realsiteurl+'/'+res['user']['signature']+'" alt=""/>');
+			jQuery('.m-signature-pad--body canvas').css({'visibility':'hidden'});
+			jQuery('.m-signature-pad--body img').load();
+		}
+		return false;
+	 },  
+	 error: function(response, d, a){
+		jQuery('body .bodyoverlay').remove();
+		jQuery('body .popupbox').remove();
+		var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+		jQuery('body').append(html);
+		
+		jQuery('.okbox').click(function(){
+			jQuery('body .bodyoverlay').remove();
+			jQuery('body .popupbox').remove();
+		}); 
+		
+	 } 
+   });
+	jQuery.validator.addMethod("onlytext",function(value,element)
+	{
+		return this.optional(element) || /^[a-zA-Z ]+$/i.test(value); 
+	},"Please enter only letter.");
+	jQuery('#edituser').validate();
+	jQuery('.clearsignature').click(function () {
+		signaturePad.clear();
+		jQuery('.m-signature-pad--body img').remove();
+		jQuery('.m-signature-pad--body canvas').show();
+		jQuery('.m-signature-pad--body canvas').removeAttr('style');
+		
+		jQuery(".savesignature").attr('disabled',false);
+		jQuery('#signaturefile').val('');
+	});
+	jQuery('#edituser').submit(function(){
+		var canvasData = signaturePad.toDataURL("image/png");
+		var sig=jQuery('#signaturefile').val();
+		var errorfree=true;
+		jQuery('#addnotes textarea,#addnotes input').each(function(){
+			if(jQuery(this).hasClass('error')){
+				errorfree=false;
+			}
+		});
+		if(sig=='' && errorfree){
+			var url=realsiteurl+'/api/save-signature';
+			jQuery.ajax({
+				url: url,
+				type: "POST",
+				crossDomain: true,
+				data: {"save-signature": "savesignature", "image":canvasData,Doctor_id:doc_uid},		
+				success: function(results) {
+					jQuery('.m-signature-pad--body img').remove();
+					jQuery('.m-signature-pad--body canvas').hide();
+					jQuery('.m-signature-pad--body').append('<img src="'+realsiteurl+'/'+results+'" alt="" />');
+					setTimeout(function(){jQuery('.m-signature-pad--body img').attr('src',realsiteurl+'/'+results);},1000);
+					jQuery(".savesignature").attr('disabled',true);
+					jQuery('#signaturefile').val(results);
+					jQuery('.m-signature-pad--body img').load();
+					updateaccount();
+					return false;
+					
+				},
+				error: function() {
+					console.log('Cannot retrieve data.');
+					return false;
+				}
+			});
+			return false;
+		}
+		else
+		{
+			updateaccount();
+		}
+		updateaccount();
+	});
+});
+
+</script>
+
+<script type="text/javascript">document.write(site_footer());</script>
+
+<!-- /. PAGE INNER  -->
+
+<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+
+<!-- JQUERY SCRIPTS -->
+
+
+
+<!-- CUSTOM SCRIPTS -->
+
+
+
+</body>
+
+</html>
+

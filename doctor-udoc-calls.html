@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<!--[if IE]>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <![endif]-->
+<title>uDoc it</title>
+<!-- BOOTSTRAP CORE STYLE  -->
+<link href="assets/css/bootstrap.css" rel="stylesheet" />
+<!-- FONT AWESOME ICONS  -->
+<link href="assets/css/font-awesome.css" rel="stylesheet" />
+<!-- CUSTOM STYLE  -->
+<link href="assets/css/style.css" rel="stylesheet" />
+<link href="assets/css/custom.css" rel="stylesheet" />
+<script src="assets/js/jquery-1.10.2.js"></script>
+<!-- BOOTSTRAP SCRIPTS -->
+<script src="assets/js/bootstrap.js"></script>
+<!-- CUSTOM SCRIPTS -->
+<script type="text/javascript" src="assets/js/config.js"></script>
+</head>
+
+<body>
+<div class="navbar navbar-inverse set-radius-zero">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand logo" href="index.html"> <img src="assets/img/logo.png" /> </a> </div>
+	  <div class="navbar-collapse collapse ">
+        <script type="text/javascript">document.write(site_menus());</script> 
+    </div>
+</div>
+<div class="content-wrapper">
+  <div class="container">
+    <h4 class="page-head-line">Your Calls</h4>
+    <!-- page content -->
+    <div class="right_col" role="main">
+      <!-- top tiles -->
+      <!-- /top tiles -->
+      <div class="row">
+        <div class="showloginmsg"></div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          
+              <div role="grid" class="dataTables_wrapper" id="example_wrapper">
+                <div class="clear"></div>
+                <div class="table-responsive" id="calllist">
+                  
+                </div>
+                
+              
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+      </div>
+      <!-- /footer content -->
+    </div>
+    <!-- /page content -->
+  </div>
+</div>
+
+</div>
+
+<script>
+
+jQuery(document).ready(function(){
+	
+	jQuery('#menu-top .doctor-account').addClass('menu-top-active');
+	
+	var doc_uid=localStorage.getItem('doc_uid');
+	jQuery('#Doctor_id').val(doc_uid);
+	var url=realsiteurl+'/api/doctor-udoc-calls';
+	var showcalllist='list';
+	var ID=gup('ID');
+	if(typeof ID!='undefined'){
+		showcalllist='detail';
+	}
+	else{ID=0;}
+	jQuery.ajax({  
+	 type: 'POST',  
+	 url: url,  
+	 //contentType: contentType,  
+	 dataType: 'json',  
+	 data: {showcalllist:showcalllist,Doctor_id:doc_uid,ID:ID},  
+	 crossDomain: true,  
+	 beforeSend: function() {
+						
+	 },		
+	 complete: function() {
+		jQuery('body .bodyoverlay').remove();
+		jQuery('body .preloader').remove();					
+	 },
+	 success: function(res) {  
+	   	if(res['calls'] && showcalllist=='list')
+		{
+			jQuery('.page-head-line').append('<a href="index.html" class="backtosite"><img src="assets/img/arrow-prev.png" alt=""></a>');
+			var html='';
+			jQuery(res['calls']).each(function(index){
+				html+='<table class="table table-striped call-listing responsive-utilities jambo_table dataTable call_listing"><tbody role="alert" aria-live="polite" aria-relevant="all">';
+				html+='<tr class="pointer"><th>ID</th><td>'+res['calls'][index]['ID']+'</td></tr>';
+				html+='<tr class="pointer"><th>Reason</th><td>'+res['calls'][index]['reason']+'</td></tr>';
+				html+='<tr class="pointer"><th>Call Start</th><td>'+res['calls'][index]['call_start']+'</td></tr>';
+				html+='<tr class="pointer"><th>Call End</th><td>'+res['calls'][index]['call_end']+'</td></tr>';
+				html+='<tr class="pointer"><th>Call Duration</th><td>'+res['calls'][index]['call_duration']+'</td></tr>';
+				html+='<tr class="pointer"><th>Action</th><td><a data-toggle="tooltip" title="Edit" href="doctor-udoc-calls.html?ID='+res['calls'][index]['ID']+'" >View</a></td></tr>';
+				html+='</tbody></table>';
+			});
+			jQuery('#calllist').html(html);
+			jQuery('#calllist').prepend('<input type="hidden" id="totalpage" value="'+res['totalpage']+'" /><input type="hidden" id="currentpage" value="1" />');
+			
+			if(parseInt(jQuery.trim(res['totalpage']))>1){
+				var serch=true;
+				var totalpage=jQuery('#totalpage').val();
+				var currentpage=jQuery('#currentpage').val();
+				jQuery(window).scroll(function() {
+				   if(jQuery(window).scrollTop() + jQuery(window).height() > jQuery(document).height() - 70) {
+					 if(serch && totalpage>=currentpage)
+					 {
+					 	serch=false;
+					 	currentpage=parseInt(currentpage)+1;
+						jQuery('#currentpage').val(currentpage);
+						jQuery.ajax({  
+							 type: 'POST',  
+							 url: url,  
+							 //contentType: contentType,  
+							 dataType: 'json',  
+							 data: {showcalllist:showcalllist,Doctor_id:doc_uid,ID:0,pagedid:currentpage},  
+							 crossDomain: true,  
+							 beforeSend: function() {
+												
+							 },		
+							 complete: function() {
+								jQuery('body .bodyoverlay').remove();
+								jQuery('body .preloader').remove();					
+							 },
+							 success: function(res) {  
+								if(res['calls'] && showcalllist=='list')
+								{
+									serch=true;
+									var html='';
+									jQuery(res['calls']).each(function(index){
+										html+='<table class="table table-striped call-listing responsive-utilities jambo_table dataTable call_listing"><tbody role="alert" aria-live="polite" aria-relevant="all">';
+										html+='<tr class="pointer"><th>ID</th><td>'+res['calls'][index]['ID']+'</td></tr>';
+										html+='<tr class="pointer"><th>Reason</th><td>'+res['calls'][index]['reason']+'</td></tr>';
+										html+='<tr class="pointer"><th>Call Start</th><td>'+res['calls'][index]['call_start']+'</td></tr>';
+										html+='<tr class="pointer"><th>Call End</th><td>'+res['calls'][index]['call_end']+'</td></tr>';
+										html+='<tr class="pointer"><th>Call Duration</th><td>'+res['calls'][index]['call_duration']+'</td></tr>';
+										
+										html+='<tr class="pointer"><th>Action</th><td><a title="Edit" href="doctor-udoc-calls.html?ID='+res['calls'][index]['ID']+'" >View</a></td></tr>';
+										html+='</tbody></table>';
+									});
+									
+									jQuery('#calllist').append(html);
+									
+									
+								}
+								
+								return false;
+							 },  
+							 error: function(response, d, a){
+								
+								
+							 } 
+						   });
+					 }
+					  
+				   }
+				});
+			}
+		}
+		if(res['calls'] && showcalllist=='detail')
+		{
+			jQuery('.page-head-line').html('Call Detail <a href="doctor-udoc-calls.html" class="backtosite"><img src="assets/img/arrow-prev.png" alt=""></a>');
+			var index=0;
+			var html='<h2>Call Detail</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing"><tr role="row"><th> ID </th><td>'+res['calls'][index]['ID']+'</td></tr><tr><th> Reason </th><td>'+res['calls'][index]['reason']+'</td></tr><tr><th> Call Start </th><td>'+res['calls'][index]['call_start']+'</td></tr><tr><th> Call End </th><td>'+res['calls'][index]['call_end']+'</td></tr><tr><th> Call Duration </th><td>'+res['calls'][index]['call_duration']+'</td></tr></table>';
+			//alert(res['calls'][index]['dconotes'].length);
+			if(res['calls'][index]['dconotes'] && res['calls'][index]['dconotes'].length>0)
+			{
+				jQuery(res['calls'][index]['dconotes']).each(function(index2){
+				  
+				  html+='<h2>Patient Details</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing"><tr role="row"><th> Name </th><td>'+res['calls'][index]['dconotes'][index2]['pname']+'</td></tr><tr><th> Medicare Number </th><td>'+res['calls'][index]['dconotes'][index2]['medicare_number']+'</td></tr><tr><th> Address </th><td>'+res['calls'][index]['dconotes'][index2]['address']+'</td></tr><tr><th> Phone number </th><td>'+res['calls'][index]['dconotes'][index2]['contact_number']+'</td></tr><tr><th> Randomly generated encounter number </th><td>'+res['calls'][index]['dconotes'][index2]['rand_number']+'</td></tr></table><h2>Consultation Notes</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing"><tr role="row"><th> Patient presentation </th><td>'+res['calls'][index]['dconotes'][index2]['medical_profile']+'</td></tr><tr><th> Doctor notes </th><td>'+res['calls'][index]['dconotes'][index2]['notes']+'</td></tr></table><h2>Scripts</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing"><tr role="row"><th> Date </th><td>'+res['calls'][index]['dconotes'][index2]['cdate']+'</td></tr><tr><th>Medication </th><td>'+res['calls'][index]['dconotes'][index2]['medication']+'</td></tr></table>';
+				  if(res['calls'][index]['dconotes'][index2]['showmedical_cert']=='yes')
+				  {
+					html+='<h2>Medical Certificate</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing screenshot"><tr role="row"><td>'+res['calls'][index]['dconotes'][index2]['medical_certificat']+'</td></tr></table><h2>Pathology And Radiology Request</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing"><tr role="row"><tr><th>Test ordered </th><td>'+res['calls'][index]['dconotes'][index2]['testordered']+'</td></tr><tr><th>Clinical Notes </th><td>'+res['calls'][index]['dconotes'][index2]['clinical_notes']+'</td></tr><tr><th>Results to </th><td>'+res['calls'][index]['dconotes'][index2]['pathology_result']+'</td></tr></table><h2>Specialist/OPD Referral</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing"><tr role="row"><tr><th>Specialist </th><td>'+res['calls'][index]['dconotes'][index2]['specialist']+'</td></tr><tr><th>Letter </th><td>'+res['calls'][index]['dconotes'][index2]['letter']+'</td></tr><tr><th>Results to </th><td>'+res['calls'][index]['dconotes'][index2]['specialist_result']+'</td></tr></table>';
+				} 
+				if(res['calls'][index]['dconotes'][index2]['screenshot']!='')
+				{
+				html+='<h2>Screenshot</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing screenshot"><tr role="row"><tr><td>'+res['calls'][index]['dconotes'][index2]['screenshot']+'</td></tr></table>';
+				}
+				//);
+				
+				});
+			}
+				  html+='<h2>Patient Feedback</h2><table class="table table-striped responsive-utilities jambo_table dataTable call_listing"><tr role="row"><th> Feedback </th><td>'+res['calls'][index]['feedback']+'</td></tr><tr><th> Rating </th><td>'+res['calls'][index]['feedback_ratting']+'</td></tr></table><a class="backto btn btn-success" href="doctor-udoc-calls.html">Back to the Your calls</a>';
+			jQuery('#calllist').html(html);
+		}
+		return false;
+	 },  
+	 error: function(response, d, a){
+		
+		
+	 } 
+   });
+});
+
+
+</script>
+<script type="text/javascript">document.write(site_footer());</script>
+</body>
+</html>

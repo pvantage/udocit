@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<!--[if IE]>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <![endif]-->
+<title>My Account</title>
+<!-- BOOTSTRAP CORE STYLE  -->
+<link href="assets/css/bootstrap.css" rel="stylesheet" />
+<!-- FONT AWESOME ICONS  -->
+<link href="assets/css/font-awesome.css" rel="stylesheet" />
+<!-- CUSTOM STYLE  -->
+<link href="assets/css/style.css" rel="stylesheet" />
+<link href="assets/css/custom.css" rel="stylesheet" />
+<link href="assets/css/jquery-ui.css" rel="stylesheet" />
+<script src="assets/js/jquery-1.10.2.js"></script>
+<!-- BOOTSTRAP SCRIPTS -->
+<script src="assets/js/bootstrap.js"></script>
+<!-- CUSTOM SCRIPTS -->
+<script type="text/javascript" src="assets/js/config.js"></script>
+</head>
+
+<body>
+<div class="navbar navbar-inverse set-radius-zero">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand logo" href="index.html"> <img src="assets/img/logo.png" /> </a> </div>
+	  <div class="navbar-collapse collapse ">
+        <script type="text/javascript">document.write(site_menus());</script> 
+    </div>
+</div>
+<div class="content-wrapper">
+  <div class="container">
+    <h4 class="page-head-line">My Account</h4>
+    <!-- /. ROW  -->
+    <div class="row">
+      <div class="showloginmsg"></div>
+        <form name="edituser" id="edituser" action="" enctype="multipart/form-data" method="post">
+          <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">First Name
+            <input type="text" id="fname" value="" class="form-control required onlytext" placeholder="" name="fname">
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">Last Name
+            <input type="text" id="lname" value="" class="form-control required onlytext" placeholder="" name="lname">
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Email
+            <input type="text" id="email" value="" class="form-control required email" placeholder="" name="email">
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback"> Password
+            <input type="text" class="form-control" id="pwd" placeholder="" name="pwd">
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback"> Username
+            <input type="text" class="form-control required" id="username" value="" disabled="disabled">
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Contact Number
+            <input type="text" class="form-control required number" name="contact_number" id="contact_number" value="" />
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Date of Birth
+            <input type="text" class="form-control required" id="dob" name="dob" readonly value="" />
+          </div>
+		  <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Address
+			  <input type="text" class="form-control required" id="address" name="address" value="" />
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Medicare Number
+			  <input type="text" class="form-control required number" id="medicare_number" name="medicare_number" value="" />
+			</div>
+          <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback"> Medical Profile
+            <textarea name="medical_profile" id="medical_profile" class="form-control required" rows="2" cols="100"></textarea>
+          </div>
+          <div class="clear"></div>
+          <h3>In case of Emergency Contact Details</h3>
+          <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Next of Kin Name
+            <input type="text" class="form-control required onlytext" name="next_kin_name" id="next_kin_name" value="" />
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Next of Kin Relation
+            <input type="text" class="form-control required onlytext" name="next_kin_relation" id="next_kin_relation" value="" />
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback"> Next of Kin Phone Number
+            <input type="text" class="form-control required number" name="next_kin_phone" id="next_kin_phone" value="" />
+          </div>
+          <div class="clear"></div>
+          <div class="col-md-6 col-sm-6 col-xs-6"></div>
+          <div class="col-md-6 col-sm-6 col-xs-6">
+            <button class="btn btn-success" name="update" type="submit">Update</button>
+          </div>
+		  <input type="hidden" name="Patient_id" id="Patient_id" value="" />
+        </form>
+        
+      </div>
+    </div>
+    <!-- /. ROW  -->
+  </div>
+  <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- BOOTSTRAP SCRIPTS -->
+<script type="text/javascript">document.write(site_footer());</script>
+<!-- /. PAGE INNER  -->
+<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+<!-- JQUERY SCRIPTS -->
+<script src="assets/js/jquery-ui.js"></script>
+<!-- CUSTOM SCRIPTS -->
+<script type="text/javascript" src="assets/js/validate.js"></script>
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+	jQuery.validator.addMethod("onlytext",function(value,element)
+	{
+		return this.optional(element) || /^[a-zA-Z ]+$/i.test(value); 
+	},"Please enter only letter.");
+	jQuery('#edituser').validate();
+
+	jQuery('#menu-top .myaccount').addClass('menu-top-active');
+
+	jQuery( "#dob" ).datepicker({
+
+		dateFormat: 'dd-mm-yy',
+
+        changeMonth: true,
+
+        changeYear: true,
+
+        showButtonPanel: true,
+
+		'maxDate': new Date(),
+		yearRange: "-120:+0"
+
+	});
+	jQuery( document ).on( "mobileinit", function() {
+		jQuery.mobile.allowCrossDomainPages = true;
+	});
+	var contentType ="application/x-www-form-urlencoded; charset=utf-8";
+    if(window.XDomainRequest){contentType = "text/plain";}
+	jQuery.support.cors = true;
+	
+	var pat_uid=localStorage.getItem('pat_uid');
+	jQuery('#Patient_id').val(pat_uid);
+	var url=realsiteurl+'/api/patient-account';
+	jQuery.ajax({  
+	 type: 'POST',  
+	 url: url,  
+	 //contentType: contentType,  
+	 dataType: 'json',  
+	 data: {showaccount:1,Patient_id:pat_uid},  
+	 crossDomain: true,  
+	 beforeSend: function() {
+						
+	 },		
+	 complete: function() {
+		jQuery('body .bodyoverlay').remove();
+		jQuery('body .preloader').remove();					
+	 },
+	 success: function(res) {  
+	   jQuery('#fname').val(res['user']['fname']);
+		jQuery('#lname').val(res['user']['lname']);
+		jQuery('#email').val(res['user']['email']);
+		jQuery('#username').val(res['user']['username']);
+		jQuery('#contact_number').val(res['user']['contact_number']);
+		jQuery('#dob').val(res['user']['dob']);
+		jQuery('#medical_profile').val(res['user']['medical_profile']);
+		jQuery('#next_kin_name').val(res['user']['next_kin_name']);
+		jQuery('#next_kin_relation').val(res['user']['next_kin_relation']);
+		jQuery('#next_kin_phone').val(res['user']['next_kin_phone']);
+		jQuery('#address').val(res['user']['address']);
+		jQuery('#medicare_number').val(res['user']['medicare_number']);
+		
+		return false;
+	 },  
+	 error: function(response, d, a){
+		jQuery('body .bodyoverlay').remove();
+		jQuery('body .popupbox').remove();
+		var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+		jQuery('body').append(html);
+		
+		jQuery('.okbox').click(function(){
+			jQuery('body .bodyoverlay').remove();
+			jQuery('body .popupbox').remove();
+		}); 
+		
+	 } 
+   });
+	
+	jQuery('#edituser').submit(function(){
+		var error=false;
+		jQuery('#edituser input').each(function(){
+			if(jQuery(this).hasClass('error'))
+			{
+				error=true;
+			}
+		});
+		if(!error)
+		{
+			var url=realsiteurl+'/api/patient-account';
+			
+			jQuery.ajax({  
+			 type: 'POST',  
+			 url: url,  
+			 //contentType: contentType,  
+			 dataType: 'json',  
+			 data: jQuery('#edituser').serialize(),  
+			 crossDomain: true,  
+			 beforeSend: function() {
+				/*jQuery('body .bodyoverlay').remove();
+				jQuery('body .preloader').remove();
+				var html='<div class="bodyoverlay"></div><div class="preloader"></div>';
+				jQuery('body').append(html);*/					
+			 },		
+			 complete: function() {
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .preloader').remove();					
+			 },
+			 success: function(res) {  
+			   if(res['success'])
+			   {
+					localStorage.setItem('pat_fname', res['success']['fname']);
+					localStorage.setItem('pat_lname', res['success']['lname']);  
+					var showerrors='<span class="col-lg-12 col-md-12 btn-success" style="margin:5px auto;">'+res['success']['msg']+'</span><br />';
+					jQuery('.showloginmsg').html(showerrors);
+					jQuery("html, body").animate({ scrollTop: 0 }, "slow");
+			   }
+			   if(res['errors'])
+			   {
+					var showerrors='';
+					jQuery(res['errors']).each(function(i){
+						showerrors+='<span class="col-lg-12 col-md-12 btn-danger" style="margin:5px auto;">'+res['errors'][i]+'</span><br />';
+					});
+					jQuery('.showloginmsg').html(showerrors);
+					jQuery("html, body").animate({ scrollTop: 0 }, "slow");
+			   }
+				return false;
+			 },  
+			 error: function(response, d, a){
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .popupbox').remove();
+				var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+				jQuery('body').append(html);
+				
+				jQuery('.okbox').click(function(){
+					jQuery('body .bodyoverlay').remove();
+					jQuery('body .popupbox').remove();
+				}); 
+				
+			 } 
+		   });
+		}
+		return false;
+	});
+});
+
+</script>
+</body>
+</html>
