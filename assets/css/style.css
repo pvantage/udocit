@@ -625,6 +625,9 @@ table.call-listing a{display:inline;}
 .backtosite{float:right; margin-right:10px;}
 .backtosite img{width:15px;}
 table.call-listing{margin-bottom:20px !important;}
-.udocitbtn{background:#000000 !important;}
+.udocitbtn{background:#fff !important; padding:0px !important;}
+.udocitbtn:hover{background:#ededed !important;}
+.udocitbtn .x_content{padding:0px;}
 .udocitbtn h3{color:#FFFFFF !important;}
 .centerdiv a,.centerdiv a:hover {color:#000000;}
+.udocitbtn img { width: 127px;}
