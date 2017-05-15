@@ -52,7 +52,7 @@ function site_menus()
 		menu+='</li>';
 	}
 	if(typeof pat_uid!='undefined' && pat_uid!=null && pat_uid!='0'){
-		menu+='<li> <a class="chatting" href="call.html">uDoc it</a> </li>';
+		menu+='<li> <a class="chatting" href="'+realsiteurl+'/apppatchat?pid='+pat_uid+'">uDoc it</a> </li>';
 	}
 	menu+='</ul>';
 	return menu;
@@ -84,7 +84,7 @@ function home_site_menus()
 		menu+='<div class="x_panel"><div class="x_content"> <a class="homepage" href="doctor-udoc-calls.html"><div class="animated flipInY col-lg-12 col-md-12 col-sm-2 col-xs-12"><h3>Your Calls</h3></div></a></div></div>';
 	}
 	if(typeof pat_uid!='undefined' && pat_uid!=null && pat_uid!='0'){
-		menu+='<div class="x_panel"><div class="x_content"> <a class="homepage" href="call.html"><div class="animated flipInY col-lg-12 col-md-12 col-sm-2 col-xs-12"><h3>uDoc it</h3></div></a></div></div>';
+		menu+='<div class="x_panel udocitbtn"><div class="x_content"> <a class="homepage" href="'+realsiteurl+'/apppatchat?pid='+pat_uid+'"><div class="animated flipInY col-lg-12 col-md-12 col-sm-2 col-xs-12"><h3>uDoc it</h3></div></a></div></div>';
 	}
 	menu+='</div>';
 	return menu;

@@ -39,6 +39,12 @@
 <script src="assets/js/bootstrap.js"></script>
 <!-- CUSTOM SCRIPTS -->
 <script type="text/javascript" src="assets/js/config.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var pat_uid=localStorage.getItem('pat_uid');
+	jQuery('.udocitbtn a').attr('href',realsiteurl+'/apppatchat?pid='+pat_uid);
+});
+</script>
 </head>
 
 <body>
@@ -77,7 +83,7 @@
             </div>
           </div>
 		
-          <div class="x_panel">
+          <div class="x_panel udocitbtn">
             <div class="x_content"> <a href="call.html">
               <div class="animated flipInY col-lg-12 col-md-12 col-sm-2 col-xs-12">
                   <h3>uDoc it</h3>

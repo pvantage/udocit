@@ -63,8 +63,101 @@
 
   <div class="right_col" role="main">
 
-    <script type="text/javascript">document.write(home_site_menus());</script> 
-
+	<div class="panel col-md-6 panel-default nopadding centerdiv patient_form">
+        <div class="panel-heading"> PATIENT LOGIN </div>
+        <div class="panel-body">
+          <div class="login_form">
+            <form class="form-signin" id="loginuser" name="loginuser" action="" method="post">
+              <div class="rg_top_section">
+                <div class="showloginmsg"></div>
+                <div class="form-group">
+                  <input type="text" id="uname" name="uname" value="" class="form-control required" placeholder="Username" required  />
+                </div>
+                <div class="form-group">
+                  <input type="password" id="pwd" name="pwd" class="form-control required" value="" placeholder="Password" autocomplete="off" required  />
+                </div>
+              </div>
+              <div class="form-box-footer form-header ftr_loginsection">
+                <div class="row">
+                  <div class="col-xs-5">
+                    <button class="btn  btn-primary " type="submit">Sign in</button>
+                  </div>
+                  <div class="col-xs-7" style="text-align:right;"><a href="javascript:;" class="forgotpwd">Forgot Password?</a></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="forgotpwd_form " style="display:none;">
+            <form class="form-signin" id="forgotpwduser" name="forgotpwduser" action="" method="post">
+              <div class="rg_top_section">
+                <div class="showforgotmsg"></div>
+                <div class="reg_box fullreg">
+                  <div class="form-group">
+                    <input type="email" id="forgotemail" name="forgotemail" value="" class="form-control required email" placeholder="Email Address" required  />
+                  </div>
+                </div>
+              </div>
+              <div class="form-box-footer form-header ftr_loginsection">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                  </div>
+                  <div class="col-xs-6" style="text-align:right;"><a href="javascript:;" class="loginform">Login</a></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+	  
+	  
+	  <div class="panel col-md-6 panel-default nopadding centerdiv doctor_form">
+        <div class="panel-heading">DOCTOR LOGIN </div>
+        <div class="panel-body">
+          <div class="login_form">
+            <form class="form-signin" id="loginuser2" name="loginuser2" action="" method="post">
+              <div class="rg_top_section">
+                <div class="showloginmsg"></div>
+                <div class="form-group">
+                  <input type="text" id="uname2" name="uname2" value="" class="form-control required" placeholder="Username" required  />
+                </div>
+                <div class="form-group">
+                  <input type="password" id="pwd2" name="pwd2" class="form-control required" value="" placeholder="Password" autocomplete="off" required  />
+                </div>
+              </div>
+              <div class="form-box-footer form-header ftr_loginsection">
+                <div class="row">
+                  <div class="col-xs-5">
+                    <button class="btn  btn-primary" type="submit">Sign in</button>
+                  </div>
+				  <div class="col-xs-7" style="text-align:right;"><a href="javascript:;" class="forgotpwd">Forgot Password?</a></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="forgotpwd_form " style="display:none;">
+            <form class="form-signin" id="forgotpwduser2" name="forgotpwduser2" action="" method="post">
+              <div class="rg_top_section">
+                <div class="showforgotmsg"></div>
+                <div class="reg_box fullreg">
+                  <div class="form-group">
+                    <input type="email" id="forgotemail2" name="forgotemail2" value="" class="form-control required email" placeholder="Email Address" required  />
+                  </div>
+                </div>
+              </div>
+              <div class="form-box-footer form-header ftr_loginsection">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                  </div>
+                  <div class="col-xs-6" style="text-align:right;"><a href="javascript:;" class="loginform">Login</a></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+	  
 	</div>
 
 </div>
@@ -77,13 +170,305 @@
 <!-- JQUERY SCRIPTS -->
 
 
-
+<script type="text/javascript" src="assets/js/validate.js"></script>
 <script type="text/javascript">
 
 jQuery(document).ready(function(){
 
 	jQuery('#menu-top .homepage').addClass('menu-top-active');
+	var menus=home_site_menus();
+	var doc_uid=localStorage.getItem('doc_uid');
+	var pat_uid=localStorage.getItem('pat_uid');
+	if(typeof pat_uid!='undefined' && pat_uid!=null && pat_uid!='0'){
+		jQuery('.right_col').html(menus);
+	}
+	if(typeof doc_uid!='undefined' && doc_uid!=null && doc_uid!='0'){
+		jQuery('.right_col').html(menus);
+	}
+	
+	jQuery( document ).on( "mobileinit", function() {
+		jQuery.mobile.allowCrossDomainPages = true;
+	});
+	var contentType ="application/x-www-form-urlencoded; charset=utf-8";
+    if(window.XDomainRequest){contentType = "text/plain";}
+	jQuery.support.cors = true;
+	jQuery('#loginuser').validate();
+	jQuery('.patient_form #loginuser').submit(function(){
+		var error=false;
+		jQuery('#loginuser input').each(function(){
+			if(jQuery(this).hasClass('error'))
+			{
+				error=true;
+			}
+		});
+		if(!error)
+		{
+			var url=realsiteurl+'/api/patient-login';
+			var uname=jQuery('#uname').val();
+			var pwd=jQuery('#pwd').val();
+			jQuery.ajax({  
+			 type: 'POST',  
+			 url: url,  
+			 dataType: 'json',  
+			 data: {login:1,uname:uname,pwd:pwd},  
+			 crossDomain: true,  
+			 beforeSend: function() {					
+			 },		
+			 complete: function() {
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .preloader').remove();					
+			 },
+			 success: function(res) {  
+			   if(res['success'])
+			   {
+			   		localStorage.setItem('pat_uid', res['success']['uid']);
+					localStorage.setItem('pat_fname', res['success']['fname']);
+					localStorage.setItem('pat_lname', res['success']['lname']);
+					window.location='patient-dashboard.html';   
+			   }
+			   if(res['errors'])
+			   {
+			   		var showerrors='';
+					jQuery(res['errors']).each(function(i){
+						showerrors+='<span class="col-lg-12 col-md-12 btn-danger" style="margin:5px auto;">'+res['errors'][i]+'</span><br />';
+					});
+					jQuery('.patient_form .showloginmsg').html(showerrors);
+			   }
+				return false;
+			 },  
+			 error: function(response, d, a){
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .popupbox').remove();
+				var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+				jQuery('body').append(html);
+				
+				jQuery('.okbox').click(function(){
+					jQuery('body .bodyoverlay').remove();
+					jQuery('body .popupbox').remove();
+				}); 
+				
+			 } 
+		   });
+		}
+		return false;
+	});
+	jQuery('#forgotpwduser').validate();
+	jQuery('.patient_form #forgotpwduser').submit(function(){
+		var error=false;
+		jQuery('#forgotpwduser input').each(function(){
+			if(jQuery(this).hasClass('error'))
+			{
+				error=true;
+			}
+		});
+		if(!error)
+		{
+			var url=realsiteurl+'/api/patient-login';
+			var forgotemail=jQuery('.patient_form #forgotemail').val();
+			jQuery.ajax({  
+			 type: 'POST',  
+			 url: url,  
+			 //contentType: contentType,  
+			 dataType: 'json',  
+			 data: {forgot:1,forgotemail:forgotemail},  
+			 crossDomain: true,  
+			 beforeSend: function() {
+								
+			 },		
+			 complete: function() {
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .preloader').remove();					
+			 },
+			 success: function(res) {  
+			   if(res['success'])
+			   {
+			   		var showerrors='';
+					showerrors='<span class="col-lg-12 col-md-12 btn-success" style="margin:5px auto;">'+res['success']['msg']+'</span><br />';
+					jQuery('.showforgotmsg').html(showerrors);
+			   }
+			   if(res['errors'])
+			   {
+			   		var showerrors='';
+					jQuery(res['errors']).each(function(i){
+						showerrors+='<span class="col-lg-12 col-md-12 btn-danger" style="margin:5px auto;">'+res['errors'][i]+'</span><br />';
+					});
+					jQuery('.showforgotmsg').html(showerrors);
+			   }
+				return false;
+			 },  
+			 error: function(response, d, a){
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .popupbox').remove();
+				var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+				jQuery('body').append(html);
+				
+				jQuery('.okbox').click(function(){
+					jQuery('body .bodyoverlay').remove();
+					jQuery('body .popupbox').remove();
+				}); 
+				
+			 } 
+		   });
+		}
+		return false;
+	});
+	
 
+	jQuery('.patient_form .forgotpwd').click(function(){
+
+		jQuery('.patient_form .login_form').hide();
+
+		jQuery('.patient_form .forgotpwd_form').show();
+
+	});
+
+	jQuery('.patient_form .loginform').click(function(){
+
+		jQuery('.patient_form .login_form').show();
+
+		jQuery('.patient_form .forgotpwd_form').hide();
+
+	});
+	
+	jQuery('#loginuser2').validate();
+
+	jQuery('#forgotpwduser2').validate();
+	jQuery('#forgotpwduser2').submit(function(){
+		var error=false;
+		jQuery('#forgotpwduser2 input').each(function(){
+			if(jQuery(this).hasClass('error'))
+			{
+				error=true;
+			}
+		});
+		if(!error)
+		{
+			var url=realsiteurl+'/api/doctor-login';
+			var forgotemail=jQuery('#forgotemail2').val();
+			jQuery.ajax({  
+			 type: 'POST',  
+			 url: url,  
+			 //contentType: contentType,  
+			 dataType: 'json',  
+			 data: {forgot:1,forgotemail:forgotemail},  
+			 crossDomain: true,  
+			 beforeSend: function() {
+								
+			 },		
+			 complete: function() {
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .preloader').remove();					
+			 },
+			 success: function(res) {  
+			   if(res['success'])
+			   {
+					var showerrors='<span class="col-lg-12 col-md-12 btn-success" style="margin:5px auto;">'+res['success']['msg']+'</span><br />';
+					jQuery('.doctor_form .showforgotmsg').html(showerrors);
+			   }
+			   if(res['errors'])
+			   {
+			   		var showerrors='';
+					jQuery(res['errors']).each(function(i){
+						showerrors+='<span class="col-lg-12 col-md-12 btn-danger" style="margin:5px auto;">'+res['errors'][i]+'</span><br />';
+					});
+					jQuery('.doctor_form .showforgotmsg').html(showerrors);
+			   }
+				return false;
+			 },  
+			 error: function(response, d, a){
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .popupbox').remove();
+				var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+				jQuery('body').append(html);
+				
+				jQuery('.okbox').click(function(){
+					jQuery('body .bodyoverlay').remove();
+					jQuery('body .popupbox').remove();
+				}); 
+				
+			 } 
+		   });
+		}
+		return false;
+	});
+	
+	jQuery('#loginuser2').submit(function(){
+		var error=false;
+		jQuery('#loginuser2 input').each(function(){
+			if(jQuery(this).hasClass('error'))
+			{
+				error=true;
+			}
+		});
+		if(!error)
+		{
+			var url=realsiteurl+'/api/doctor-login';
+			var uname=jQuery('#uname2').val();
+			var pwd=jQuery('#pwd2').val();
+			jQuery.ajax({  
+			 type: 'POST',  
+			 url: url,  
+			 //contentType: contentType,  
+			 dataType: 'json',  
+			 data: {login:1,uname:uname,pwd:pwd},  
+			 crossDomain: true,  
+			 beforeSend: function() {
+									
+			 },		
+			 complete: function() {
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .preloader').remove();					
+			 },
+			 success: function(res) {  
+			   if(res['success'])
+			   {
+			   		localStorage.setItem('doc_uid', res['success']['uid']);
+					localStorage.setItem('doc_fname', res['success']['fname']);
+					localStorage.setItem('doc_lname', res['success']['lname']);
+					window.location='doctor-dashboard.html';   
+			   }
+			   if(res['errors'])
+			   {
+			   		var showerrors='';
+					jQuery(res['errors']).each(function(i){
+						showerrors+='<span class="col-lg-12 col-md-12 btn-danger" style="margin:5px auto;">'+res['errors'][i]+'</span><br />';
+					});
+					jQuery('.doctor_form .showloginmsg').html(showerrors);
+			   }
+				return false;
+			 },  
+			 error: function(response, d, a){
+				jQuery('body .bodyoverlay').remove();
+				jQuery('body .popupbox').remove();
+				var html='<div class="bodyoverlay"></div><div class="popupbox errorbox"><div class="popupimg"><img src="assets/img/error.png" /></div><h1 class="success">ERROR</h1><h1>Server Error.</h1><button class="okbox">OK</button></div>';
+				jQuery('body').append(html);
+				
+				jQuery('.okbox').click(function(){
+					jQuery('body .bodyoverlay').remove();
+					jQuery('body .popupbox').remove();
+				}); 
+				
+			 } 
+		   });
+		}
+		return false;
+	});
+
+	jQuery('.doctor_form .forgotpwd').click(function(){
+
+		jQuery('.doctor_form .login_form').hide();
+
+		jQuery('.doctor_form .forgotpwd_form').show();
+
+	});
+
+	jQuery('.doctor_form .loginform').click(function(){
+
+		jQuery('.doctor_form .login_form').show();
+
+		jQuery('.doctor_form .forgotpwd_form').hide();
+
+	});
 });
 
 </script>
