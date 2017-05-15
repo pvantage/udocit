@@ -620,7 +620,7 @@ table.call-listing a{display:inline;}
 .call_listing td{ border:none !important; min-width:175px;}
 .call_listing th{ min-width:110px;}
 .note.error{color:#990000; width:90%; margin:0px auto;}
-.note a{color:#000000; margin:0px 10px;}
+.note a{color:#000000; margin:0px 1px;}
 .note a.dfirefox{margin-left:0px;}
 .backtosite{float:right; margin-right:10px;}
 .backtosite img{width:15px;}

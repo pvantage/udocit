@@ -84,7 +84,7 @@ function home_site_menus()
 		menu+='<div class="x_panel"><div class="x_content"> <a class="homepage" href="doctor-udoc-calls.html"><div class="animated flipInY col-lg-12 col-md-12 col-sm-2 col-xs-12"><h3>Your Calls</h3></div></a></div></div>';
 	}
 	if(typeof pat_uid!='undefined' && pat_uid!=null && pat_uid!='0'){
-		menu+='<div class="x_panel udocitbtn"><div class="x_content"> <a class="homepage" href="'+realsiteurl+'/apppatchat?pid='+pat_uid+'"><div class="animated flipInY col-lg-12 col-md-12 col-sm-2 col-xs-12"><h3><img src="assets/img/udoc.png"/></h3></div></a></div></div>';
+		menu+='<div class="x_panel udocitbtn"><div class="x_content"> <a class="homepage" href="'+realsiteurl+'/apppatchat?pid='+pat_uid+'"><div class="animated flipInY col-lg-12 col-md-12 col-sm-2 col-xs-12"><h3><img src="assets/img/udoc.png"/></h3></div></a></div></div><div class="note error">This will launch the browser (<a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox&hl=en">Firefox</a> or <a href="https://play.google.com/store/apps/details?id=com.android.chrome&hl=en">Chrome</a>).<br/><br/></div>';
 	}
 	menu+='</div>';
 	return menu;
