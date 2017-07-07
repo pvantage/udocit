@@ -38,16 +38,19 @@
 <!-- BOOTSTRAP SCRIPTS -->
 <script src="assets/js/bootstrap.js"></script>
 <!-- CUSTOM SCRIPTS -->
+
+<script type="text/javascript" src="assets/js/config.js"></script>
+<script type="text/javascript" src="assets/js/jquery.playSound.js"></script>
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 <script type="text/javascript">
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady(){
-	screen.lockOrientation('landscape');
+	alert('start');
 	alert(screen.orientation.type);
+	screen.lockOrientation('landscape');
+	
 };
 </script>
-<script type="text/javascript" src="assets/js/config.js"></script>
-<script type="text/javascript" src="assets/js/jquery.playSound.js"></script>
 </head>
 
 <body>
