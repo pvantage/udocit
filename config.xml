@@ -21,7 +21,7 @@
 	 <!-- Core plugins 
 	 <plugin name="com.ams.plugins.barcodescanner" source="pgb" spec="2.0.6" />-->
 	
-	 <plugin name="cordova-plugin-screen-orientation" source="npm" />
+	 <!--<plugin name="cordova-plugin-screen-orientation" source="npm" />-->
 	 
 	<icon gap:platform="webos" src="assets/img/logo.jpg" />
 	<icon src="assets/img/logo.jpg" gap:platform="android" gap:density="ldpi" />
