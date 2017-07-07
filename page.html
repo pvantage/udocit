@@ -47,12 +47,13 @@ document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady(){
 	alert('start');
 	alert(screen.orientation.type);
-	screen.lockOrientation('landscape');
+	screen.lockOrientation('landscape-primary');
 	
-	screen.orientation.onchange = function(){
+	
+};
+screen.orientation.onchange = function(){
 		alert(screen.orientation.type);
 	};
-};
 </script>
 </head>
 
