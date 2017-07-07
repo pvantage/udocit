@@ -49,6 +49,9 @@ function onDeviceReady(){
 	alert(screen.orientation.type);
 	screen.lockOrientation('landscape');
 	
+	screen.orientation.onchange = function(){
+		alert(screen.orientation.type);
+	};
 };
 </script>
 </head>
